@@ -22,7 +22,7 @@ def parse_file(filename):
         return ast.parse(source, filename=filename, mode="exec")
 
 
-def main(args):
+def main(args=sys.argv[:1]):
     filename = args[0]
     if len(args) != 1 or filename.lower() in ("help", "h", "-h", "--help"):
         print(__doc__)
@@ -32,5 +32,6 @@ def main(args):
         ast_json = json.dumps(ast_dict, sort_keys=True, indent=4, separators=(',', ': '))
         print(ast_json)
 
+
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
