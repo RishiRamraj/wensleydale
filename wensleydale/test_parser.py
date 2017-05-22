@@ -58,3 +58,21 @@ def test_parse_file(open):
     assert value['classname'] == 'Num'
     assert value['n'] == 1
     assert value
+
+
+@patch('wensleydale.parser.parse_file')
+def test_run(parse_file):
+    '''
+    An int object is properly decoded.
+    '''
+    # Create fake data.
+    parse_file.return_value = ast.parse('1')
+    path = 'path'
+    query = '$.classname'
+
+    # Run the test.
+    result = parser.run(path, query)
+
+    # Check the result.
+    parse_file.assert_called_once_with(path)
+    assert result == 'Module'
