@@ -1,12 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from ast import parse
+import ast
+from io import StringIO
+from unittest.mock import patch
 from wensleydale import parser
 
 
 def dparse(string):
-    return parser.dictify(parse(string))
+    '''
+    Parse and dictify a string.
+    '''
+    return parser.dictify(ast.parse(string))
 
 
 def test_int():
@@ -26,7 +31,7 @@ def test_whitespacing_creates_different_asts():
     assert properly_whitespaced_loop != improperly_whitespaced_loop
 
 
-def shadowing_creates_different_asts():
+def test_shadowing_creates_different_asts():
     '''
     A class which shadows the AST internal name of a built-in should have a
     distinct abstract syntax tree from the built-in it shadows.
@@ -34,3 +39,22 @@ def shadowing_creates_different_asts():
     shadowed_int = dparse('Num(1)')
     normal_int = dparse('1')
     assert shadowed_int != normal_int
+
+
+@patch('wensleydale.parser.open')
+def test_parse_file(open):
+    '''
+    A file is properly opened and parsed.
+    '''
+    # Create fake data.
+    open.return_value.__enter__.return_value = StringIO('1')
+    path = 'path'
+
+    # Run the test.
+    result = parser.parse_file(path)
+
+    # Check the result.
+    value = parser.dictify(result)['body'][0]['value']
+    assert value['classname'] == 'Num'
+    assert value['n'] == 1
+    assert value

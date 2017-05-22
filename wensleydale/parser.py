@@ -31,16 +31,15 @@ def dictify(obj):
         return obj
 
 
-def parse_file(filename):
+def parse_file(path):
     '''
     Parse a file and convert it to an ast object.
 
     Args:
-        obj: An AST object.
+        path (str): Path to a python file.
 
     Returns:
-        result (dict): A collection of dicts, lists and strings.
+        result (ast.AST): An AST node.
     '''
-    with open(filename) as f:
-        source = f.read()
-        return ast.parse(source, filename=filename, mode="exec")
+    with open(path) as file:
+        return ast.parse(file.read(), filename=path, mode="exec")
