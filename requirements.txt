@@ -1,3 +1,4 @@
-click
 setuptools
 pbr
+click
+objectpath
