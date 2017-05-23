@@ -2,22 +2,44 @@
 # -*- coding: utf-8 -*-
 
 from wensleydale import cli
-from unittest.mock import patch
 from click.testing import CliRunner
+import json
 
 
-@patch('wensleydale.cli.print')
-@patch('wensleydale.cli.parser')
-def test_run(parser, print):
+def test_run():
     '''
-    Ensure the version is populated.
+    The tool runs end to end.
     '''
-    # Setup the test.
-    parser.run.return_value = 'Module'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        # Setup the test.
+        with open('test.py', 'w') as file:
+            file.write('a = 1')
 
-    # Run the test.
-    result = CliRunner().invoke(cli.main, ['path', ''])
+        # Run the test.
+        result = runner.invoke(cli.main, ['test.py', '$.classname'])
 
     # Check the result.
     assert result.exit_code == 0
-    print.assert_called_once_with('"Module"')
+    assert result.output == '"Module"\n'
+
+
+def test_default__run():
+    '''
+    The default ObjectPath query is respected.
+    '''
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        # Setup the test.
+        with open('test.py', 'w') as file:
+            file.write('1')
+
+        # Run the test.
+        result = runner.invoke(cli.main, ['test.py', ])
+
+    # Check the result.
+    assert result.exit_code == 0
+    output = json.loads(result.output)
+    assert output['classname'] == 'Module'
+    assert output['body'][0]['classname'] == 'Expr'
+    assert output['body'][0]['value']['classname'] == 'Num'

@@ -9,9 +9,9 @@ from wensleydale import parser
 
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
-@click.argument('query', type=str)
+@click.argument('query', type=str, default='$.*')
 @click.version_option()
-def main(path, query, level=None, version=None):
+def main(path, query):
     '''
     Mr Wensleydale. Query the AST using ObjectPath and return JSON.
     '''
