@@ -1,4 +1,4 @@
 Wensleydale
 ===========
 
-Mr Wensleydale. Query the AST using ObjectPath and return JSON.
+Mr Wensleydale. Query Python, get the AST as JSON.

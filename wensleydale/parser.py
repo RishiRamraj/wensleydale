@@ -6,7 +6,6 @@ Parse python code into the abstract syntax tree and represent as JSON
 from __future__ import print_function
 from itertools import chain
 import ast
-import objectpath
 
 
 def dictify(obj):
@@ -26,10 +25,11 @@ def dictify(obj):
                                                       obj.__class__.__name__)])
         }
         return result
+
     elif isinstance(obj, list):
         return [dictify(x) for x in obj]
-    else:
-        return obj
+
+    return obj
 
 
 def parse_file(path):
@@ -46,7 +46,7 @@ def parse_file(path):
         return ast.parse(file.read(), filename=path, mode="exec")
 
 
-def run(path, query):
+def run(path):
     '''
     Run the AST parser and return the result.
 
@@ -54,13 +54,6 @@ def run(path, query):
         path: The python file you want to load.
 
     Returns:
-        result: The objectpath result.
+        result (dict): A collection of dicts, lists and strings.
     '''
-    # Load the file.
-    node = parse_file(path)
-
-    # Convert it to objects.
-    objs = dictify(node)
-
-    # Run the query.
-    return objectpath.Tree(objs).execute(query)
+    return dictify(parse_file(path))
