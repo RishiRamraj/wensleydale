@@ -8,6 +8,11 @@ Support
 
 Currently only Python 3.5 is supported.
 
+Upcoming features:
+
+* *Recursive imports:* Trace into calls.
+* *Pythonic paths:* Use python dotted paths instead of file paths.
+
 Usage
 -----
 
