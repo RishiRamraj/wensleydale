@@ -11,7 +11,7 @@ from wensleydale import parser
 @click.argument('path', type=click.Path(exists=True))
 @click.argument('query', type=str)
 @click.version_option()
-def main(path, query, level=None, version=None):
+def main(path, query):
     '''
     Mr Wensleydale. Query the AST using ObjectPath and return JSON.
     '''
