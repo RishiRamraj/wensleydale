@@ -8,4 +8,5 @@ Contents
 
    changelog
    getting_started
+   samples
    contributors
