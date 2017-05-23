@@ -1,0 +1,7 @@
+pytest
+pytest-runner
+pytest-cov
+pytest-capturelog
+sphinx
+alabaster
+flake8
