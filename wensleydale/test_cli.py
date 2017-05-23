@@ -3,11 +3,12 @@
 
 from wensleydale import cli
 from click.testing import CliRunner
+import json
 
 
 def test_run():
     '''
-    Ensure the version is populated.
+    The tool runs end to end.
     '''
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -21,3 +22,24 @@ def test_run():
     # Check the result.
     assert result.exit_code == 0
     assert result.output == '"Module"\n'
+
+
+def test_default__run():
+    '''
+    The default ObjectPath query is respected.
+    '''
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        # Setup the test.
+        with open('test.py', 'w') as file:
+            file.write('1')
+
+        # Run the test.
+        result = runner.invoke(cli.main, ['test.py', ])
+
+    # Check the result.
+    assert result.exit_code == 0
+    output = json.loads(result.output)
+    assert output['classname'] == 'Module'
+    assert output['body'][0]['classname'] == 'Expr'
+    assert output['body'][0]['value']['classname'] == 'Num'

@@ -9,7 +9,7 @@ from wensleydale import parser
 
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
-@click.argument('query', type=str)
+@click.argument('query', type=str, default='$.*')
 @click.version_option()
 def main(path, query):
     '''
