@@ -14,28 +14,10 @@ def test_run():
     with runner.isolated_filesystem():
         # Setup the test.
         with open('test.py', 'w') as file:
-            file.write('a = 1')
-
-        # Run the test.
-        result = runner.invoke(cli.main, ['test.py', '$.classname'])
-
-    # Check the result.
-    assert result.exit_code == 0
-    assert result.output == '"Module"\n'
-
-
-def test_default__run():
-    '''
-    The default ObjectPath query is respected.
-    '''
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        # Setup the test.
-        with open('test.py', 'w') as file:
             file.write('1')
 
         # Run the test.
-        result = runner.invoke(cli.main, ['test.py', ])
+        result = runner.invoke(cli.main, ['test.py'])
 
     # Check the result.
     assert result.exit_code == 0

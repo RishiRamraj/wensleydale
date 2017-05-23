@@ -68,11 +68,12 @@ def test_run(parse_file):
     # Create fake data.
     parse_file.return_value = ast.parse('1')
     path = 'path'
-    query = '$.classname'
 
     # Run the test.
-    result = parser.run(path, query)
+    result = parser.run(path)
 
     # Check the result.
     parse_file.assert_called_once_with(path)
-    assert result == 'Module'
+    assert result['classname'] == 'Module'
+    assert result['body'][0]['classname'] == 'Expr'
+    assert result['body'][0]['value']['classname'] == 'Num'

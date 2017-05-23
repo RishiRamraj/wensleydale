@@ -9,14 +9,9 @@ from wensleydale import parser
 
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
-@click.argument('query', type=str, default='$.*')
 @click.version_option()
-def main(path, query):
+def main(path):
     '''
-    Mr Wensleydale. Query the AST using ObjectPath and return JSON.
+    Mr Wensleydale. Query Python, get the AST as JSON.
     '''
-    # Run the query.
-    result = parser.run(path, query)
-
-    # Spit out the result.
-    print(json.dumps(result))
+    print(json.dumps(parser.run(path)))
