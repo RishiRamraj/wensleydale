@@ -6,5 +6,4 @@ Changes
 
 Changes:
 
-* Add scaffolding.
-* Add script to convert AST to JSON
+* Add script to convert AST to JSON.
