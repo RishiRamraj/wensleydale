@@ -8,10 +8,9 @@ from wensleydale import parser
 
 
 @click.command()
-@click.argument('path', type=str)
+@click.argument('path', type=click.Path(exists=True))
 @click.argument('query', type=str)
-@click.option('--level', type=str, help='Logging level to run with')
-@click.option('--version', type=str, help='Wensleydale version to run with')
+@click.version_option()
 def main(path, query, level=None, version=None):
     '''
     Mr Wensleydale. Query the AST using ObjectPath and return JSON.
