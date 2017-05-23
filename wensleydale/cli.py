@@ -10,7 +10,6 @@ from wensleydale import parser
 @click.command()
 @click.argument('path', type=str)
 @click.argument('query', type=str)
-@click.option('--level', type=str, help='Logging level to run with')
 @click.version_option()
 def main(path, query, level=None, version=None):
     '''
